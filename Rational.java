@@ -25,18 +25,6 @@ public class Rational {
     public Rational plus(Rational b) {
         int numerator = this.n * b.d + this.d * b.n;
         int denominator = d * b.d;
-        int divisor = gcd(numerator, denominator);
-        if (divisor > 1) {
-            numerator /= divisor;
-            denominator /= divisor;
-        }
-        
-        return new Rational(numerator, denominator);
-    }
-    
-    public Rational minus(Rational b) {
-        int numerator = this.n * b.d - this.d * b.n;
-        int denominator = d * b.d;
         boolean lt0 = false;
         if (numerator < 0) {
             lt0 = true;
@@ -48,10 +36,15 @@ public class Rational {
             denominator /= divisor;
         }
         
-        if (lt0 == true) {
+        if (lt0) {
             numerator = -numerator;
         }
         return new Rational(numerator, denominator);
+    }
+    
+    public Rational minus(Rational b) {
+        Rational r = new Rational(-b.n, b.d);
+        return this.plus(r);
     }
     
     public Rational times(Rational b) {
